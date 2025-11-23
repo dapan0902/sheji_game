@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const [stats, setStats] = useState({ atk: 100, spd: 3.0, proj: 1 });
 
   return (
-    <div className="h-[100dvh] w-full bg-[#02000A] flex flex-col items-center justify-center font-['Rajdhani'] text-white overflow-hidden touch-none select-none">
+    <div className="w-full bg-[#02000A] flex flex-col items-center justify-center font-['Rajdhani'] text-white overflow-hidden touch-none select-none" style={{ height: '100vh', height: 'calc(var(--vh, 1vh) * 100)', minHeight: '-webkit-fill-available', position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
       
       <div className="flex flex-col h-full w-full max-w-md relative border-x border-white/5">
         
