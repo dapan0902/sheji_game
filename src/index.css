@@ -534,3 +534,32 @@ canvas {
   display: block;
 }
 
+/* 确保渐变文字正确显示 */
+h1.text-transparent,
+h1.bg-clip-text,
+h1.bg-gradient-to-b {
+  background: linear-gradient(to bottom, #00FF9C, #05D9E8) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* 确保按钮不是白色背景，而是半透明绿色 */
+button[class*="bg-\[#00FF9C\]"] {
+  background-color: rgba(0, 255, 156, 0.1) !important;
+}
+
+button[class*="bg-\[#00FF9C\]"]:hover {
+  background-color: rgba(0, 255, 156, 0.2) !important;
+}
+
+/* 确保按钮文字是绿色，不是黑色 */
+button[class*="bg-\[#00FF9C\]"] span {
+  color: #00FF9C !important;
+}
+
+button[class*="bg-\[#00FF9C\]"] svg {
+  color: #00FF9C !important;
+}
+
