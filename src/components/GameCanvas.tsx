@@ -264,17 +264,18 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
     setPlayerStats({ atk: 100, spd: 3.0, proj: 1 });
   }, [setLevel, setScore, setPlayerStats]);
 
-  const handlePointerMove = (e: React.PointerEvent | PointerEvent) => {
+  const handlePointerMove = useCallback((e: React.PointerEvent | PointerEvent | TouchEvent) => {
     if (gameState !== GameState.PLAYING || !containerRef.current) return;
+    e.preventDefault(); // 防止移动端滚动
     const rect = containerRef.current.getBoundingClientRect();
     const scaleX = CANVAS_WIDTH / rect.width;
-    const clientX = e.clientX;
+    const clientX = (e as PointerEvent).clientX || (e as TouchEvent).touches?.[0]?.clientX || 0;
     const relativeX = (clientX - rect.left) * scaleX;
     
     let newX = relativeX - PLAYER_WIDTH / 2;
     newX = Math.max(0, Math.min(CANVAS_WIDTH - PLAYER_WIDTH, newX));
     playerRef.current.x = newX;
-  };
+  }, [gameState]);
 
   useEffect(() => {
     if (gameState === GameState.START) {
@@ -742,21 +743,46 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
   };
 
   useEffect(() => {
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerdown', handlePointerMove);
-    return () => {
-        window.removeEventListener('pointermove', handlePointerMove);
-        window.removeEventListener('pointerdown', handlePointerMove);
+    const handleMove = (e: PointerEvent | TouchEvent) => {
+      handlePointerMove(e as PointerEvent);
     };
-  }, [gameState]);
+    
+    window.addEventListener('pointermove', handleMove);
+    window.addEventListener('pointerdown', handleMove);
+    window.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('touchstart', handleMove, { passive: false });
+    
+    return () => {
+        window.removeEventListener('pointermove', handleMove);
+        window.removeEventListener('pointerdown', handleMove);
+        window.removeEventListener('touchmove', handleMove);
+        window.removeEventListener('touchstart', handleMove);
+    };
+  }, [gameState, handlePointerMove]);
 
   return (
     <div 
       ref={containerRef}
       className="relative w-full h-full mx-auto bg-black overflow-hidden cursor-none touch-none select-none"
-      style={{ maxWidth: '100%', maxHeight: '100%' }}
+      style={{ 
+        maxWidth: '100%', 
+        maxHeight: '100%',
+        touchAction: 'none',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none'
+      }}
     >
-      <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} className="w-full h-full block object-contain" />
+      <canvas 
+        ref={canvasRef} 
+        width={CANVAS_WIDTH} 
+        height={CANVAS_HEIGHT} 
+        className="w-full h-full block object-contain"
+        style={{
+          touchAction: 'none',
+          display: 'block'
+        }}
+      />
     </div>
   );
 };
