@@ -231,7 +231,26 @@ body {
 }
 
 .border-\[#00FF9C\] {
-  border-color: #00FF9C;
+  border-color: #00FF9C !important;
+  border-style: solid;
+}
+
+/* 修复按钮样式 - 确保是透明/半透明背景 */
+button {
+  background-color: transparent;
+  color: inherit;
+}
+
+/* 确保按钮使用正确的背景色 */
+button.bg-\[#00FF9C\]\/10,
+.bg-\[#00FF9C\]\/10 {
+  background-color: rgba(0, 255, 156, 0.1) !important;
+}
+
+button.bg-\[#00FF9C\]\/20,
+.bg-\[#00FF9C\]\/20,
+.hover\:bg-\[#00FF9C\]\/20:hover {
+  background-color: rgba(0, 255, 156, 0.2) !important;
 }
 
 .border-l-4 {
@@ -339,6 +358,10 @@ body {
 
 .text-transparent {
   color: transparent;
+  background: linear-gradient(to bottom, #00FF9C, #05D9E8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .bg-clip-text {
@@ -353,6 +376,10 @@ body {
 .from-\[#00FF9C\] {
   --tw-gradient-from: #00FF9C;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(0, 255, 156, 0));
+  background: linear-gradient(to bottom, #00FF9C, #05D9E8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .to-\[#05D9E8\] {
