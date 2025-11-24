@@ -1,4 +1,4 @@
-import { LootType, SegmentType } from "./types";
+import { LootType, SegmentType } from "../types";
 
 
 
