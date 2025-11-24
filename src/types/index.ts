@@ -25,12 +25,21 @@ export interface Entity {
   height: number;
 }
 
+export interface TradeConfig {
+  costType: 'ATK' | 'SPD' | 'PROJ';
+  costVal: number;
+  rewardType: 'ATK' | 'SPD' | 'PROJ';
+  rewardVal: number;
+}
+
 export interface Gate extends Entity {
   rowId: string; // Used to link left/right choices
-  type: 'ATK' | 'SPD';
+  type: 'ATK' | 'SPD' | 'MYSTERY' | 'TRADE';
   value: number;
   hp: number;
   maxHp: number;
+  hitFlash?: number;
+  tradeConfig?: TradeConfig;
 }
 
 export interface SnakeSegment {
@@ -44,6 +53,7 @@ export interface SnakeSegment {
   y: number;
   width: number;
   height: number;
+  hitFlash?: number;
 }
 
 export interface Player extends Entity {
@@ -51,6 +61,9 @@ export interface Player extends Entity {
   attackSpeed: number; 
   projectileCount: number;
   lastShotTime: number;
+  fever?: number;
+  isFeverActive?: boolean;
+  feverTimer?: number;
 }
 
 export interface Bullet extends Entity {
@@ -58,6 +71,7 @@ export interface Bullet extends Entity {
   vy: number;
   damage: number;
   color: string;
+  isFever?: boolean;
 }
 
 export interface Loot extends Entity {
@@ -73,5 +87,6 @@ export interface Particle {
   vy: number;
   life: number;
   color: string;
+  text?: string;
 }
 
